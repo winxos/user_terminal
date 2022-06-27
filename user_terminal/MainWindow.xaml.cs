@@ -43,9 +43,9 @@ namespace user_terminal
             this.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
             this.Height = System.Windows.SystemParameters.PrimaryScreenHeight;
             List<string> i = new List<string> { "水分", "容重", "杂质", "不完善粒" };
-            Dictionary<string, int> dict = new Dictionary<string, int> { 
-                { "水分", 1 }, { "容重", 2 }, { "杂质", 3 }, { "不完善粒", 5 },
-                { "脂肪酸值", 0x10 }, { "重金属铅", 0x37 }, { "重金属镉", 0x38 }, { "重金属汞", 0x39 }
+            Dictionary<string, string> dict = new Dictionary<string, string> { 
+                { "水分", "14031500" }, { "容重", "1010701" }, { "杂质", "14031600" }, { "不完善粒", "1010401" },
+                { "脂肪酸值", "4020100" }, { "重金属铅", "02010811" }, { "重金属镉", "02010812" }
             };
             index_type.ItemsSource = dict;
             index_type.SelectedIndex = 0;
@@ -83,7 +83,7 @@ namespace user_terminal
             lbl_msg.Content = "waiting...";
             App.Current.Dispatcher.Invoke(() =>
             {
-                lbl_msg.Content = http_get(string.Format("{0}/sample/sign?card_code={1}",
+                lbl_msg.Content = http_get(string.Format("{0}/sinograin/sample/sign?card_code={1}",
                 http_addr.Text, card_id.Text));
             });
         }
@@ -93,7 +93,7 @@ namespace user_terminal
             lbl_msg.Content = "waiting...";
             App.Current.Dispatcher.Invoke(() =>
             {
-                sample_id.Text = http_get(string.Format("{0}/sample/getid", http_addr.Text));
+                sample_id.Text = http_get(string.Format("{0}/sinograin/sample/getLastestSample", http_addr.Text));
                 lbl_msg.Content = "ok";
             });
         }
@@ -103,8 +103,8 @@ namespace user_terminal
             lbl_msg.Content = "waiting...";
             App.Current.Dispatcher.Invoke(() =>
             {
-                KeyValuePair<string, int> kv = (KeyValuePair<string, int>)index_type.SelectedItem;
-                lbl_msg.Content = http_get(string.Format("{0}/sample/dataSubmit?sample_code={1}&index_code={2}&check_val={3}",
+                KeyValuePair<string, string> kv = (KeyValuePair<string, string>)index_type.SelectedItem;
+                lbl_msg.Content = http_get(string.Format("{0}/sinograin/sample/dataSubmit?sample_code={1}&index_code={2}&check_val={3}",
                     http_addr.Text, sample_id.Text, kv.Value, txt_val.Text));
             });
         }
